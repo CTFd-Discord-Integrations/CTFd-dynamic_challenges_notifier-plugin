@@ -2,6 +2,8 @@ from __future__ import division  # Use floating point for math calculations
 
 import math
 
+from .notify import *
+
 from flask import Blueprint
 
 from CTFd.models import (
@@ -200,6 +202,10 @@ class DynamicValueChallenge(BaseChallenge):
         challenge = DynamicChallenge.query.filter_by(id=challenge.id).first()
         data = request.form or request.get_json()
         submission = data["submission"].strip()
+
+
+        disbot("<@" + str(user.oauth_id) + "> just solved " + str(challenge.name) + "!!")  # <--- LHC DISCORD SOLVE NOTIFIER
+
 
         solve = Solves(
             user_id=user.id,
